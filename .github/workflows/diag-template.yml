@@ -1,0 +1,63 @@
+name: DIAG – check PAT_SYNC and repo access
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - andraderenew/structural-mri_cat12-vs-freesurfer_oasis1
+          - andraderenew/fmri-task_spm_firstlevel_auditory
+          - andraderenew/fmri-rest_fsl-graphs_braph_adhd200-preproc
+          - andraderenew/dti_fsl-dtifit_tutorial
+          - andraderenew/eeg_erps-tf_eeglab-fieldtrip_sternberg
+          - andraderenew/eeg_sources-connectivity_loreta-brainstorm_pte
+          - andraderenew/meg_erfs-sources_brainstorm_median-nerve
+          - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
+    steps:
+      - name: Is PAT_SYNC present?
+        env:
+          PAT: ${{ secrets.PAT_SYNC }}
+        run: |
+          if [ -z "$PAT" ]; then
+            echo "❌ PAT_SYNC is MISSING in this repo's Actions secrets"
+            exit 1
+          else
+            echo "✅ PAT_SYNC is present"
+          fi
+
+      - name: Who am I (via PAT_SYNC)?
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_SYNC }}
+          script: |
+            const me = await github.request('GET /user');
+            core.info(`Authenticated as: ${me.data.login}`)
+
+      - name: Can we access the child repo?
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_SYNC }}
+          script: |
+            const [owner, repo] = "${{ matrix.repo }}".split("/");
+            const info = await github.request('GET /repos/{owner}/{repo}', { owner, repo });
+            core.info(`Repo OK: ${info.data.full_name} (default_branch=${info.data.default_branch})`)
+
+      - name: Does v0.1.0 release already exist?
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_SYNC }}
+          script: |
+            const [owner, repo] = "${{ matrix.repo }}".split("/");
+            try {
+              const rel = await github.request('GET /repos/{owner}/{repo}/releases/tags/{tag}', {
+                owner, repo, tag: 'v0.1.0'
+              });
+              core.info(`Found existing release: ${rel.data.html_url}`);
+            } catch (e) {
+              core.info(`No existing release (status ${e.status})`);
+            }
