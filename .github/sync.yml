@@ -10,17 +10,17 @@ group:
       - andraderenew/meg_erfs-sources_brainstorm_median-nerve
       - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
     files:
-      - source: LICENSE
-        dest: LICENSE
+      # SIEMPRE (seguros e idénticos)
       - source: .github/PULL_REQUEST_TEMPLATE.md
         dest: .github/PULL_REQUEST_TEMPLATE.md
       - source: .github/ISSUE_TEMPLATE/
         dest: .github/ISSUE_TEMPLATE/
         deleteOrphaned: false
-      # (opcionales, si los usas)
-      # - source: .github/CODEOWNERS
-      #   dest: .github/CODEOWNERS
-      # - source: .github/FUNDING.yml
-      #   dest: .github/FUNDING.yml
-      # - source: SECURITY.md
-      #   dest: SECURITY.md
+      - source: LICENSE
+        dest: LICENSE
+      - source: .gitignore
+        dest: .gitignore
+
+      # BROADCAST UNA SOLA VEZ
+      - source: env/TOOL_VERSIONS.md
+        dest: env/TOOL_VERSIONS.md
