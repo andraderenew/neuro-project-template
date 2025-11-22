@@ -1,0 +1,76 @@
+name: Seed v0.1.0 releases in child repos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - andraderenew/structural-mri_cat12-vs-freesurfer_oasis1
+          - andraderenew/fmri-task_spm_firstlevel_auditory
+          - andraderenew/fmri-rest_fsl-graphs_braph_adhd200-preproc
+          - andraderenew/dti_fsl-dtifit_tutorial
+          - andraderenew/eeg_erps-tf_eeglab-fieldtrip_sternberg
+          - andraderenew/eeg_sources-connectivity_loreta-brainstorm_pte
+          - andraderenew/meg_erfs-sources_brainstorm_median-nerve
+          - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
+
+    steps:
+      - name: Validate PAT_SYNC secret
+        env:
+          PAT: ${{ secrets.PAT_SYNC }}
+        run: |
+          if [ -z "$PAT" ]; then
+            echo "❌ PAT_SYNC missing. Add a classic PAT with 'repo' scope as PAT_SYNC (Settings → Secrets → Actions)."
+            exit 1
+          else
+            echo "✅ PAT_SYNC present"
+          fi
+
+      - name: Create or report release
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_SYNC }}   # usa tu PAT_SYNC
+          script: |
+            const repoFull = "${{ matrix.repo }}";
+            const [owner, repo] = repoFull.split("/");
+            const tag = "v0.1.0";
+            const title = "v0.1.0 – initial structure";
+            const body = [
+              "Initial structure:",
+              "- Docs: README, DATA_SOURCES, CITATION, env/TOOL_VERSIONS",
+              "- Repo hygiene: .gitignore, LICENSE, Pages, Topics",
+              "- Next: add Fig 1 and update report.md"
+            ].join("\n");
+
+            // 1) ¿Existe ya el release?
+            try {
+              const rel = await github.request('GET /repos/{owner}/{repo}/releases/tags/{tag}', { owner, repo, tag });
+              core.info(`Release ${tag} already exists in ${repoFull} → ${rel.data.html_url}`);
+              return;
+            } catch (e) {
+              if (e.status !== 404) {
+                core.setFailed(`Error checking release in ${repoFull}: ${e.status} ${e.message}`);
+                return;
+              }
+            }
+
+            // 2) Averiguar la rama por defecto
+            const repoInfo = await github.request('GET /repos/{owner}/{repo}', { owner, repo });
+            const target = repoInfo.data.default_branch || "main";
+            core.info(`Default branch for ${repoFull} is ${target}`);
+
+            // 3) Crear release (GitHub crea la tag en target si no existe)
+            const created = await github.request('POST /repos/{owner}/{repo}/releases', {
+              owner, repo,
+              tag_name: tag,
+              name: title,
+              body: body,
+              target_commitish: target,
+              make_latest: "true",
+              generate_release_notes: false
+            });
+            core.info(`✅ Created release ${tag} in ${repoFull} → ${created.data.html_url}`);
