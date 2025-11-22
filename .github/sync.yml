@@ -10,16 +10,19 @@ group:
       - andraderenew/meg_erfs-sources_brainstorm_median-nerve
       - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
     files:
+      # SIEMPRE (seguros e idénticos en todos)
       - source: LICENSE
         dest: LICENSE
-      - source: SECURITY.md
-        dest: SECURITY.md
       - source: .github/PULL_REQUEST_TEMPLATE.md
         dest: .github/PULL_REQUEST_TEMPLATE.md
-      - source: .github/CODEOWNERS
-        dest: .github/CODEOWNERS
-      - source: .github/FUNDING.yml
-        dest: .github/FUNDING.yml
       - source: .github/ISSUE_TEMPLATE/
         dest: .github/ISSUE_TEMPLATE/
         deleteOrphaned: false
+
+      # ── BROADCAST UNA SOLA VEZ ── (después de mergear en los 8 repos, quita estas 3 entradas)
+      - source: DATA_SOURCES.md
+        dest: DATA_SOURCES.md
+      - source: env/TOOL_VERSIONS.md
+        dest: env/TOOL_VERSIONS.md
+      - source: CITATION.cff
+        dest: CITATION.cff
