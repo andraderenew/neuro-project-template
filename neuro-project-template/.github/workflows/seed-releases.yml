@@ -1,0 +1,56 @@
+name: Seed v0.1.0 releases in child repos
+
+on:
+  workflow_dispatch:   # se ejecuta a mano
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - andraderenew/structural-mri_cat12-vs-freesurfer_oasis1
+          - andraderenew/fmri-task_spm_firstlevel_auditory
+          - andraderenew/fmri-rest_fsl-graphs_braph_adhd200-preproc
+          - andraderenew/dti_fsl-dtifit_tutorial
+          - andraderenew/eeg_erps-tf_eeglab-fieldtrip_sternberg
+          - andraderenew/eeg_sources-connectivity_loreta-brainstorm_pte
+          - andraderenew/meg_erfs-sources_brainstorm_median-nerve
+          - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
+    steps:
+      - name: Create release via API
+        uses: actions/github-script@v7
+        env:
+          GH_TOKEN: ${{ secrets.PAT_RELEASE }}
+        with:
+          github-token: ${{ secrets.PAT_RELEASE }}
+          script: |
+            const [owner, repo] = "${{ matrix.repo }}".split("/");
+            const tag = "v0.1.0";
+            const title = "v0.1.0 – initial structure";
+            const body = [
+              "Initial structure:",
+              "- Docs: README, DATA_SOURCES, CITATION, env/TOOL_VERSIONS",
+              "- Repo hygiene: .gitignore, LICENSE, Pages, Topics",
+              "- Next: add Fig 1 and update report.md"
+            ].join("\n");
+            // Si ya existe, no fallar
+            try {
+              // Comprueba si existe el tag
+              await github.request('GET /repos/{owner}/{repo}/releases/tags/{tag}', { owner, repo, tag });
+              core.info(`Release ${tag} already exists in ${owner}/${repo} — skipping`);
+            } catch (e) {
+              if (e.status === 404) {
+                await github.request('POST /repos/{owner}/{repo}/releases', {
+                  owner, repo,
+                  tag_name: tag,
+                  name: title,
+                  body: body,
+                  make_latest: "true",
+                  generate_release_notes: false
+                });
+                core.info(`Created release ${tag} in ${owner}/${repo}`);
+              } else {
+                core.setFailed(`Error checking/creating release in ${owner}/${repo}: ${e.message}`);
+              }
+            }
