@@ -1,4 +1,3 @@
-# neuro-project-template/.github/sync.yml
 group:
   - name: common-files
     repos:
@@ -11,22 +10,16 @@ group:
       - andraderenew/meg_erfs-sources_brainstorm_median-nerve
       - andraderenew/pet_suvr-pvc_spm_petpve12_oasis3
     files:
-      # Archivos "seguros" comunes que suelen ser idénticos en todos los repos
       - source: LICENSE
         dest: LICENSE
-      - source: .github/ISSUE_TEMPLATE
-        dest: .github/ISSUE_TEMPLATE
+      - source: SECURITY.md
+        dest: SECURITY.md
       - source: .github/PULL_REQUEST_TEMPLATE.md
         dest: .github/PULL_REQUEST_TEMPLATE.md
       - source: .github/CODEOWNERS
         dest: .github/CODEOWNERS
       - source: .github/FUNDING.yml
         dest: .github/FUNDING.yml
-      - source: SECURITY.md
-        dest: SECURITY.md
-
-      # ⚠️ Opcionales (coméntalos si cada repo es diferente)
-      # - source: env/TOOL_VERSIONS.md
-      #   dest: env/TOOL_VERSIONS.md
-      # - source: docs/_includes/footer.md
-      #   dest: docs/_includes/footer.md
+      - source: .github/ISSUE_TEMPLATE/
+        dest: .github/ISSUE_TEMPLATE/
+        deleteOrphaned: false
