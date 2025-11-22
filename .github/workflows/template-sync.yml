@@ -1,0 +1,28 @@
+name: Sync template files to child repos
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/sync.yml'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - '.github/CODEOWNERS'
+      - '.github/FUNDING.yml'
+      - 'LICENSE'
+      - 'SECURITY.md'
+      # Añade aquí cualquier otro archivo que quieras que dispare sync
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout template
+      # checkout v4 recomendado
+        uses: actions/checkout@v4
+      - name: Run repo-file-sync-action
+        uses: Redocly/repo-file-sync-action@v1
+        with:
+          GH_TOKEN: ${{ secrets.PAT_SYNC }}
+          # Lee mapeo de .github/sync.yml y abre PRs en repos destino
