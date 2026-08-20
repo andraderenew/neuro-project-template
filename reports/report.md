@@ -1,27 +1,46 @@
-# Mini-Report
+# Project Report
+
+> Replace all placeholders before treating this as a completed report.
 
 ## Aim
-<2–3 lines: what you test and why it matters.>
+
+<Scientific or technical aim.>
 
 ## Data
-Dataset: <name + link> · Subset: <N> · Disk: raw ~<X> GB, derivatives ~<Y> GB.
+
+<Dataset, version, subset, and provenance.>
 
 ## Methods
-Tools: <SPM/CAT12/FS/FSL/EEGLAB/FieldTrip/Brainstorm/BRAPH/MATLAB>.
-Pipeline:
-- <step 1>
-- <step 2>
-- <step 3>
+
+### Preprocessing
+
+<Steps and parameters.>
+
+### Analysis
+
+<Steps and parameters.>
+
+### Statistics
+
+<Model, contrasts, uncertainty, multiple-comparison correction, or state that
+the analysis is descriptive only.>
 
 ## Results
-- Fig 1: <what it shows> (see `results/figures/fig1.png`)
-- Table 1: <optional> (see `results/tables/table1.csv`)
 
-## QC
-<motion/outliers/surface failures/bad channels/etc.>
+<List only results supported by tracked figures, tables, or machine-readable
+outputs.>
+
+## Quality control
+
+<Visual and quantitative checks.>
 
 ## Limitations
-<sample size / heterogeneity / thresholds / compute>
+
+<Known limitations and what was not independently validated.>
 
 ## Reproducibility
-Tool versions: `env/TOOL_VERSIONS.md` · Steps: `README.md`
+
+- Data provenance: `DATA_SOURCES.md`
+- Tool versions: `env/TOOL_VERSIONS.md`
+- Figures: `results/figures/`
+- Tables: `results/tables/`

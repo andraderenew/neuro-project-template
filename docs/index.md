@@ -1,45 +1,58 @@
-# <Project Title>: <Modality & Tools> on <Dataset>
+# <Project title>
 
-### What this project asks (2–3 lines)
-A crisp statement of the scientific question and why it matters.
+> Replace all angle-bracket placeholders before publishing this page.
 
----
+## Scientific question
+
+<What does the project test or demonstrate, and why does it matter?>
 
 ## Data
-- **Source:** <dataset name + link> · **License/DUA:** <text>
-- **Subset used:** <n subjects/sessions> · **Approx disk:** <X GB> (raw) / <Y GB> (derivatives)
-- **Layout:** BIDS (if applicable)
 
-> We **do not** commit raw data to the repository. If needed, link to the public source and keep large artifacts out of git. (GitHub looks for an entry file in `/docs` such as `index.md` when you publish Pages from that folder.)
+- **Dataset:** <name and authoritative link>
+- **Version/access date:** <version/date>
+- **Subset:** <subjects/sessions/runs>
+- **Access conditions:** <license/DUA/public>
+- **Layout:** <BIDS/non-BIDS/other>
 
----
+See `DATA_SOURCES.md` for detailed provenance.
 
-## Pipeline (high-level)
-Preprocessing → Analysis → Statistics → QC  
-Tools: FreeSurfer / FSL / SPM + CAT12 / Brainstorm / EEGLAB / FieldTrip / BRAPH / MATLAB
+## Pipeline
 
-Confounds handled (examples): motion, age/sex, site.
+1. <preprocessing step>
+2. <analysis step>
+3. <statistics or quantitative summary>
+4. <quality-control step>
 
----
+## Software
+
+See `env/TOOL_VERSIONS.md`.
 
 ## Results
-- 2–3 key figures (see `results/figures/`)
-- Report thresholds (e.g., FWE/FDR; cluster-permutation for M/EEG) and effect sizes.
 
----
+Document only outputs that exist in the repository.
+
+- Figure 1: <description>
+- Table 1: <description>
+
+## Quality control
+
+<Visual QC, quantitative QC, exclusions, failures, or other checks.>
+
+## Statistics
+
+<Statistical model, contrasts, correction method, effect sizes, uncertainty,
+or state explicitly that the project is descriptive only.>
 
 ## Reproducibility
-- **Versions:** see `env/TOOL_VERSIONS.md`
-- **Steps to re-run:** bullet list of actions (no raw data)
-- **Known limits:** sample size, heterogeneity, compute
 
----
+Provide the exact commands or scripts required to reproduce the tracked
+outputs from legally obtainable input data.
 
-## Cite this work
-A `CITATION.cff` is included—GitHub renders a “Cite this repository” box automatically.  
-When you cut a Release and connect to Zenodo, add the DOI badge here.
+## Limitations
 
----
+<Sample size, preprocessing constraints, missing validation, generalizability,
+or other limitations.>
 
-### Author & links
-**Rene Andrade Rey** · 🧪 ORCID: https://orcid.org/0000-0001-5627-579X · 🌐 Google Scholar: https://scholar.google.es/citations?hl=es&user=Nl3ApFEAAAAJ
+## Citation
+
+See `CITATION.cff`.
