@@ -1,33 +1,39 @@
-# General
+# Operating system
 .DS_Store
 Thumbs.db
+
+# Editors / temporary files
 *.tmp
 *.log
+*~
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
 
 # MATLAB
 *.asv
 *.m~
 *.mex*
-# *.mat   # descomenta si quieres excluir todos los .mat
 
-# FreeSurfer & FSL (derivados pesados)
-surf/
-label/
-mri/
-stats/
-fsaverage*
-*.mgz
+# Raw / large project data
+/data/
+/rawdata/
+/sourcedata/
+/dataset/
+/bids/
+/derivatives/
+
+# Common neuroimaging binary data
 *.nii
 *.nii.gz
-*feat/
-*ica/
-*.edat2
-*.fsf
+*.mgz
 
-# Brainstorm/EEGLAB/FieldTrip
-brainstorm_db/
-derivatives/
-cache/
+# EEG / MEG binary data
 *.set
 *.fdt
 *.bdf
@@ -35,10 +41,21 @@ cache/
 *.eeg
 *.vmrk
 
-# Proyecto
-/data/
-dataset/
-bids/
-derivatives/
-results/raw_exports/
-reports/tmp/
+# FreeSurfer subject-directory outputs when accidentally placed at repo root
+/surf/
+/label/
+/mri/
+/stats/
+/fsaverage*
+
+# FSL outputs
+*.feat/
+*.ica/
+
+# Brainstorm
+/brainstorm_db/
+/cache/
+
+# Temporary project outputs
+/results/raw_exports/
+/reports/tmp/
